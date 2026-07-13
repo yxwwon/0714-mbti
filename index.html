@@ -2,398 +2,1192 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>학교생활 MBTI 고양이 테스트</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🐱 학교생활 MBTI 정원 테스트</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    font-family: "Pretendard", "Arial", sans-serif;
-}
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    background: linear-gradient(#fff4fa, #eaf7ff);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #555;
-}
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
-.container {
-    width: 90%;
-    max-width: 500px;
-    background: rgba(255,255,255,0.9);
-    border-radius: 35px;
-    padding: 30px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    position: relative;
+
+*{
+    box-sizing:border-box;
 }
 
 
-/* 고양이 */
-.cat {
-    font-size: 70px;
-    animation: bounce 2s infinite;
-}
+body{
 
-@keyframes bounce {
-    50% {
-        transform: translateY(-10px);
-    }
-}
+    margin:0;
+    overflow-x:hidden;
 
+    font-family:'Jua', sans-serif;
 
-h1 {
-    color: #ff8fb1;
-    margin-bottom: 10px;
-}
+    background:
+    linear-gradient(#bde9ff,#fff3c9);
 
-.subtitle {
-    color: #888;
-    margin-bottom: 25px;
 }
 
 
-/* 시작 버튼 */
-button {
-    border: none;
-    border-radius: 20px;
-    padding: 15px 25px;
-    margin: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    background: #ffd6e7;
-    color: #555;
-    transition: 0.3s;
-}
+/* ===== 움직이는 하늘 ===== */
 
-button:hover {
-    transform: scale(1.05);
-    background: #ffb8d2;
-}
+.sky{
 
-
-/* 질문 */
-.progress {
-    color:#aaa;
-    margin-bottom:15px;
-}
-
-.question {
-    font-size:22px;
-    font-weight:bold;
-    margin-bottom:25px;
-}
-
-
-.answer {
-    display:block;
+    position:fixed;
     width:100%;
-    background:#f8eaff;
-    margin:12px 0;
+    height:100%;
+
+    overflow:hidden;
+    z-index:-3;
+
 }
 
 
-.answer:hover {
-    background:#e7d2ff;
+/* 구름 */
+
+.cloud{
+
+    position:absolute;
+
+    width:150px;
+    height:50px;
+
+    background:white;
+
+    border-radius:50px;
+
+    opacity:.7;
+
+    animation:cloudMove 25s linear infinite;
+
 }
+
+
+.cloud:before,
+.cloud:after{
+
+    content:"";
+
+    position:absolute;
+
+    background:white;
+
+    border-radius:50%;
+
+}
+
+
+.cloud:before{
+
+    width:70px;
+    height:70px;
+
+    left:25px;
+    top:-35px;
+
+}
+
+
+.cloud:after{
+
+    width:55px;
+    height:55px;
+
+    right:20px;
+    top:-25px;
+
+}
+
+
+
+@keyframes cloudMove{
+
+    from{
+        transform:translateX(-200px);
+    }
+
+    to{
+        transform:translateX(120vw);
+    }
+
+}
+
+
+
+/* 햇살 */
+
+.sun{
+
+    position:absolute;
+
+    top:60px;
+    right:80px;
+
+    width:130px;
+    height:130px;
+
+    background:#ffe68a;
+
+    border-radius:50%;
+
+    box-shadow:
+    0 0 50px #ffe68a;
+
+    animation:sunPulse 3s infinite;
+
+}
+
+
+
+@keyframes sunPulse{
+
+    50%{
+        transform:scale(1.1);
+    }
+
+}
+
+
+
+/* ===== 정원 ===== */
+
+
+.garden{
+
+    position:fixed;
+
+    bottom:0;
+
+    width:100%;
+    height:220px;
+
+    background:
+    linear-gradient(#8fd17a,#5eb85c);
+
+    z-index:-2;
+
+}
+
+
+
+/* 꽃 */
+
+.flower{
+
+    position:absolute;
+
+    bottom:100px;
+
+    font-size:40px;
+
+    animation:sway 3s infinite;
+
+}
+
+
+
+@keyframes sway{
+
+    50%{
+        transform:rotate(8deg);
+    }
+
+}
+
+
+
+/* ===== 고양이 ===== */
+
+
+.cat-area{
+
+    position:relative;
+
+    height:220px;
+
+}
+
+
+.cat{
+
+    position:absolute;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    bottom:10px;
+
+    font-size:110px;
+
+    animation:
+    walk 4s infinite,
+    bounce 2s infinite;
+
+}
+
+
+
+/* 걷기 */
+
+@keyframes walk{
+
+
+0%,100%{
+    transform:translateX(-50%);
+}
+
+
+50%{
+
+    transform:
+    translateX(-50%)
+    translateY(-15px);
+
+}
+
+}
+
+
+
+/* 꼬리 느낌 */
+
+.cat::after{
+
+    content:"〰";
+
+    position:absolute;
+
+    right:-35px;
+
+    bottom:25px;
+
+    font-size:50px;
+
+    animation:tail 1s infinite;
+
+}
+
+
+
+@keyframes tail{
+
+    50%{
+        transform:rotate(30deg);
+    }
+
+}
+
+
+
+/* ===== 앱 카드 ===== */
+
+
+.container{
+
+    width:90%;
+
+    max-width:650px;
+
+    margin:40px auto;
+
+    background:
+    rgba(255,255,255,.85);
+
+    backdrop-filter:blur(10px);
+
+    border-radius:40px;
+
+    padding:35px;
+
+    box-shadow:
+
+    0 15px 40px rgba(0,0,0,.15);
+
+    text-align:center;
+
+}
+
+
+
+h1{
+
+    color:#ff91b8;
+
+    font-size:38px;
+
+}
+
+
+.subtitle{
+
+    color:#777;
+
+}
+
+
+
+/* 질문 카드 */
+
+
+.question-box{
+
+    background:#fff7fb;
+
+    padding:30px;
+
+    border-radius:30px;
+
+    margin-top:20px;
+
+}
+
+
+
+.question{
+
+    font-size:24px;
+
+    line-height:1.5;
+
+}
+
+
+
+/* 선택지 */
+
+
+.answer{
+
+    width:100%;
+
+    margin:10px 0;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:25px;
+
+    background:#ffe0ec;
+
+    font-family:inherit;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+.answer:hover{
+
+    background:#ffb6d3;
+
+    transform:translateY(-5px);
+
+}
+
 
 
 /* 결과 */
-.result {
+
+
+.result{
+
     display:none;
+
 }
 
-.result-box {
-    background:#fff4f9;
-    border-radius:25px;
+
+
+.mbti{
+
+    font-size:65px;
+
+    color:#ff7eae;
+
+}
+
+
+
+.result-card{
+
+    background:#fff2a8;
+
+    border-radius:30px;
+
     padding:25px;
-    margin-top:20px;
-}
 
-.mbti {
-    font-size:40px;
-    font-weight:bold;
-    color:#ff8fb1;
+    font-size:20px;
+
 }
 
 
-.cat-message {
+
+/* 다시하기 */
+
+.restart{
+
+    margin-top:25px;
+
+    padding:15px 30px;
+
+    border:none;
+
+    border-radius:30px;
+
+    background:#91ddff;
+
+    font-family:inherit;
+
     font-size:18px;
-    margin-top:15px;
+
 }
 
 
-.footer {
-    margin-top:20px;
-    font-size:13px;
-    color:#aaa;
+
+/* 반짝이 */
+
+.spark{
+
+    position:fixed;
+
+    color:white;
+
+    animation:sparkle 4s infinite;
+
 }
+
+
+@keyframes sparkle{
+
+    50%{
+        opacity:0;
+        transform:translateY(-40px);
+    }
+
+}
+
 
 </style>
+
 </head>
 
 
 <body>
 
 
+<!-- 배경 -->
+
+
+<div class="sky">
+
+
+<div class="sun"></div>
+
+
+<div class="cloud" style="top:100px"></div>
+
+<div class="cloud" style="top:220px; animation-delay:8s"></div>
+
+
+<div class="spark" style="left:20%;top:30%">✦</div>
+
+<div class="spark" style="left:70%;top:40%">✦</div>
+
+
+</div>
+
+
+
+<div class="garden">
+
+<div class="flower" style="left:10%">🌷</div>
+
+<div class="flower" style="left:30%">🌼</div>
+
+<div class="flower" style="left:80%">🌻</div>
+
+</div>
+
+
+
+
 <div class="container">
 
-<div class="cat">🐱</div>
 
-<h1>학교생활 MBTI</h1>
+<div class="cat-area">
 
-<div class="subtitle">
-고양이 친구와 함께 알아보는 나의 학교 성격!
+<div class="cat">
+🐈
+</div>
+
 </div>
 
 
-<div id="start">
+<h1>
+🐾 학교생활 MBTI 정원 테스트
+</h1>
 
-<p>
-🏫 학교에서 나는 어떤 타입일까?
-<br>
-귀여운 고양이가 질문할게!
+
+<p class="subtitle">
+따뜻한 햇살 아래 고양이와 함께 알아보는 나의 학교생활 성향
 </p>
 
-<button onclick="startTest()">
-🐾 테스트 시작하기
-</button>
+
+
+<div id="quiz">
+
+
+<div class="question-box">
+
+<div class="question" id="question">
 
 </div>
 
 
-
-<div id="quiz" style="display:none;">
-
-<div class="progress" id="progress"></div>
-
-<div class="question" id="question"></div>
-
-
-<div id="answers"></div>
+<div id="answers">
 
 </div>
+
+
+</div>
+
+
+<p id="progress"></p>
+
+
+</div>
+
 
 
 
 <div class="result" id="result">
 
-<div class="cat">😺</div>
 
-<h2>나의 학교생활 유형</h2>
+<h2>
+🌿 너의 학교생활 고양이는?
+</h2>
 
-
-<div class="result-box">
 
 <div class="mbti" id="mbti"></div>
 
-<h3 id="title"></h3>
 
-<p class="cat-message" id="message"></p>
+<div class="result-card" id="description">
 
 </div>
 
 
-<button onclick="location.reload()">
+<button class="restart" onclick="restart()">
+
 🐱 다시 테스트하기
+
 </button>
 
 
 </div>
 
 
-<div class="footer">
-Made with 🐾 & 학교생활
+
+</div>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🐱 학교생활 MBTI 정원 테스트</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+
+*{
+    box-sizing:border-box;
+}
+
+
+body{
+
+    margin:0;
+    overflow-x:hidden;
+
+    font-family:'Jua', sans-serif;
+
+    background:
+    linear-gradient(#bde9ff,#fff3c9);
+
+}
+
+
+/* ===== 움직이는 하늘 ===== */
+
+.sky{
+
+    position:fixed;
+    width:100%;
+    height:100%;
+
+    overflow:hidden;
+    z-index:-3;
+
+}
+
+
+/* 구름 */
+
+.cloud{
+
+    position:absolute;
+
+    width:150px;
+    height:50px;
+
+    background:white;
+
+    border-radius:50px;
+
+    opacity:.7;
+
+    animation:cloudMove 25s linear infinite;
+
+}
+
+
+.cloud:before,
+.cloud:after{
+
+    content:"";
+
+    position:absolute;
+
+    background:white;
+
+    border-radius:50%;
+
+}
+
+
+.cloud:before{
+
+    width:70px;
+    height:70px;
+
+    left:25px;
+    top:-35px;
+
+}
+
+
+.cloud:after{
+
+    width:55px;
+    height:55px;
+
+    right:20px;
+    top:-25px;
+
+}
+
+
+
+@keyframes cloudMove{
+
+    from{
+        transform:translateX(-200px);
+    }
+
+    to{
+        transform:translateX(120vw);
+    }
+
+}
+
+
+
+/* 햇살 */
+
+.sun{
+
+    position:absolute;
+
+    top:60px;
+    right:80px;
+
+    width:130px;
+    height:130px;
+
+    background:#ffe68a;
+
+    border-radius:50%;
+
+    box-shadow:
+    0 0 50px #ffe68a;
+
+    animation:sunPulse 3s infinite;
+
+}
+
+
+
+@keyframes sunPulse{
+
+    50%{
+        transform:scale(1.1);
+    }
+
+}
+
+
+
+/* ===== 정원 ===== */
+
+
+.garden{
+
+    position:fixed;
+
+    bottom:0;
+
+    width:100%;
+    height:220px;
+
+    background:
+    linear-gradient(#8fd17a,#5eb85c);
+
+    z-index:-2;
+
+}
+
+
+
+/* 꽃 */
+
+.flower{
+
+    position:absolute;
+
+    bottom:100px;
+
+    font-size:40px;
+
+    animation:sway 3s infinite;
+
+}
+
+
+
+@keyframes sway{
+
+    50%{
+        transform:rotate(8deg);
+    }
+
+}
+
+
+
+/* ===== 고양이 ===== */
+
+
+.cat-area{
+
+    position:relative;
+
+    height:220px;
+
+}
+
+
+.cat{
+
+    position:absolute;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    bottom:10px;
+
+    font-size:110px;
+
+    animation:
+    walk 4s infinite,
+    bounce 2s infinite;
+
+}
+
+
+
+/* 걷기 */
+
+@keyframes walk{
+
+
+0%,100%{
+    transform:translateX(-50%);
+}
+
+
+50%{
+
+    transform:
+    translateX(-50%)
+    translateY(-15px);
+
+}
+
+}
+
+
+
+/* 꼬리 느낌 */
+
+.cat::after{
+
+    content:"〰";
+
+    position:absolute;
+
+    right:-35px;
+
+    bottom:25px;
+
+    font-size:50px;
+
+    animation:tail 1s infinite;
+
+}
+
+
+
+@keyframes tail{
+
+    50%{
+        transform:rotate(30deg);
+    }
+
+}
+
+
+
+/* ===== 앱 카드 ===== */
+
+
+.container{
+
+    width:90%;
+
+    max-width:650px;
+
+    margin:40px auto;
+
+    background:
+    rgba(255,255,255,.85);
+
+    backdrop-filter:blur(10px);
+
+    border-radius:40px;
+
+    padding:35px;
+
+    box-shadow:
+
+    0 15px 40px rgba(0,0,0,.15);
+
+    text-align:center;
+
+}
+
+
+
+h1{
+
+    color:#ff91b8;
+
+    font-size:38px;
+
+}
+
+
+.subtitle{
+
+    color:#777;
+
+}
+
+
+
+/* 질문 카드 */
+
+
+.question-box{
+
+    background:#fff7fb;
+
+    padding:30px;
+
+    border-radius:30px;
+
+    margin-top:20px;
+
+}
+
+
+
+.question{
+
+    font-size:24px;
+
+    line-height:1.5;
+
+}
+
+
+
+/* 선택지 */
+
+
+.answer{
+
+    width:100%;
+
+    margin:10px 0;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:25px;
+
+    background:#ffe0ec;
+
+    font-family:inherit;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+.answer:hover{
+
+    background:#ffb6d3;
+
+    transform:translateY(-5px);
+
+}
+
+
+
+/* 결과 */
+
+
+.result{
+
+    display:none;
+
+}
+
+
+
+.mbti{
+
+    font-size:65px;
+
+    color:#ff7eae;
+
+}
+
+
+
+.result-card{
+
+    background:#fff2a8;
+
+    border-radius:30px;
+
+    padding:25px;
+
+    font-size:20px;
+
+}
+
+
+
+/* 다시하기 */
+
+.restart{
+
+    margin-top:25px;
+
+    padding:15px 30px;
+
+    border:none;
+
+    border-radius:30px;
+
+    background:#91ddff;
+
+    font-family:inherit;
+
+    font-size:18px;
+
+}
+
+
+
+/* 반짝이 */
+
+.spark{
+
+    position:fixed;
+
+    color:white;
+
+    animation:sparkle 4s infinite;
+
+}
+
+
+@keyframes sparkle{
+
+    50%{
+        opacity:0;
+        transform:translateY(-40px);
+    }
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- 배경 -->
+
+
+<div class="sky">
+
+
+<div class="sun"></div>
+
+
+<div class="cloud" style="top:100px"></div>
+
+<div class="cloud" style="top:220px; animation-delay:8s"></div>
+
+
+<div class="spark" style="left:20%;top:30%">✦</div>
+
+<div class="spark" style="left:70%;top:40%">✦</div>
+
+
+</div>
+
+
+
+<div class="garden">
+
+<div class="flower" style="left:10%">🌷</div>
+
+<div class="flower" style="left:30%">🌼</div>
+
+<div class="flower" style="left:80%">🌻</div>
+
+</div>
+
+
+
+
+<div class="container">
+
+
+<div class="cat-area">
+
+<div class="cat">
+🐈
+</div>
+
+</div>
+
+
+<h1>
+🐾 학교생활 MBTI 정원 테스트
+</h1>
+
+
+<p class="subtitle">
+따뜻한 햇살 아래 고양이와 함께 알아보는 나의 학교생활 성향
+</p>
+
+
+
+<div id="quiz">
+
+
+<div class="question-box">
+
+<div class="question" id="question">
+
+</div>
+
+
+<div id="answers">
+
 </div>
 
 
 </div>
 
 
+<p id="progress"></p>
 
-<script>
 
+</div>
 
-const questions = [
 
-{
-q:"쉬는 시간, 나는?",
-a:[
-["E","친구들에게 먼저 다가가 수다를 떤다"],
-["I","조용히 혼자 쉬거나 생각한다"]
-]
-},
 
-{
-q:"조별 활동에서 나는?",
-a:[
-["J","계획을 세우고 역할을 정한다"],
-["P","상황에 맞게 자유롭게 한다"]
-]
-},
 
-{
-q:"시험 기간 나의 모습은?",
-a:[
-["S","노트와 문제집을 꼼꼼히 정리한다"],
-["N","전체 흐름과 원리를 이해하려 한다"]
-]
-},
+<div class="result" id="result">
 
-{
-q:"친구가 고민을 말하면?",
-a:[
-["F","공감하며 위로해준다"],
-["T","해결 방법을 함께 찾아준다"]
-]
-},
 
-{
-q:"학교 축제가 열린다면?",
-a:[
-["E","무대나 행사에 적극 참여한다"],
-["I","구경하거나 조용히 즐긴다"]
-]
-}
+<h2>
+🌿 너의 학교생활 고양이는?
+</h2>
 
-];
 
+<div class="mbti" id="mbti"></div>
 
-let index=0;
-let scores={E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
 
+<div class="result-card" id="description">
 
-function startTest(){
+</div>
 
-document.getElementById("start").style.display="none";
-document.getElementById("quiz").style.display="block";
 
-showQuestion();
+<button class="restart" onclick="restart()">
 
-}
+🐱 다시 테스트하기
 
+</button>
 
 
-function showQuestion(){
+</div>
 
-let q=questions[index];
 
-document.getElementById("progress").innerHTML=
-`🐾 ${index+1} / ${questions.length}`;
 
+</div>
 
-document.getElementById("question").innerHTML=q.q;
 
-
-let box=document.getElementById("answers");
-box.innerHTML="";
-
-
-q.a.forEach(answer=>{
-
-let btn=document.createElement("button");
-
-btn.className="answer";
-
-btn.innerHTML=answer[1];
-
-
-btn.onclick=function(){
-
-scores[answer[0]]++;
-
-index++;
-
-
-if(index < questions.length){
-
-showQuestion();
-
-}else{
-
-showResult();
-
-}
-
-};
-
-
-box.appendChild(btn);
-
-
-});
-
-
-}
-
-
-
-
-function showResult(){
-
-document.getElementById("quiz").style.display="none";
-
-document.getElementById("result").style.display="block";
-
-
-let mbti="";
-
-
-mbti += scores.E>=scores.I ? "E":"I";
-mbti += scores.S>=scores.N ? "S":"N";
-mbti += scores.T>=scores.F ? "T":"F";
-mbti += scores.J>=scores.P ? "J":"P";
-
-
-let data={
-
-"ENFP":
-["🐱 장난꾸러기 고양이","친구들과 함께할 때 가장 빛나는 분위기 메이커!"],
-
-"ENTJ":
-["🐯 리더 고양이","목표를 세우고 친구들을 이끄는 멋진 계획가!"],
-
-"ISFP":
-["🌸 포근한 고양이","조용하지만 따뜻한 마음을 가진 힐링 친구!"],
-
-"INFJ":
-["🌙 몽글몽글 고양이","깊게 생각하고 친구를 잘 이해하는 특별한 존재!"],
-
-"ISTJ":
-["📚 모범생 고양이","책임감 있고 믿음직한 학교생활 전문가!"],
-
-"ESFP":
-["🎀 신나는 고양이","학교의 즐거움을 만드는 행복 전도사!"],
-
-"INTP":
-["🔍 탐험 고양이","궁금한 것이 많고 새로운 것을 좋아하는 연구자!"],
-
-"ESTJ":
-["👑 반장 고양이","체계적으로 일을 해결하는 든든한 리더!"]
-
-};
-
-
-let result=data[mbti] || 
-["🐾 특별한 고양이","나만의 개성이 가득한 멋진 친구!"];
-
-
-
-document.getElementById("mbti").innerHTML=mbti;
-
-document.getElementById("title").innerHTML=result[0];
-
-document.getElementById("message").innerHTML=result[1];
-
-}
-
-
-
-</script>
-
-
-</body>
-</html>
