@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>학교생활 MBTI 정원</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Pretendard", "Arial", sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(#fff4fa, #e9f8ee);
+    overflow-x: hidden;
+}
+
+/* 꽃 배경 */
+.flower {
+    position: fixed;
+    font-size: 35px;
+    animation: float 6s infinite ease-in-out;
+    opacity: 0.8;
+    z-index: 0;
+}
+
+@keyframes float {
+    50% {
+        transform: translateY(-25px) rotate(10deg);
+    }
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    width: 90%;
+    max-width: 700px;
+    margin: 50px auto;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(10px);
+    padding: 35px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(150,120,150,0.15);
+}
+
+h1 {
+    text-align: center;
+    color: #d27aa5;
+}
+
+.subtitle {
+    text-align:center;
+    color:#777;
+    margin-bottom:30px;
+}
+
+.question {
+    background:#fff8fc;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:20px;
+    border:2px solid #f8d7e8;
+}
+
+.question p {
+    font-weight:bold;
+    color:#555;
+}
+
+button {
+    border:none;
+    background:#f7a8c4;
+    color:white;
+    padding:12px 25px;
+    border-radius:25px;
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+}
+
+button:hover {
+    background:#e985ad;
+    transform:scale(1.05);
+}
+
+.option {
+    display:block;
+    background:#ffffff;
+    margin:10px 0;
+    padding:12px;
+    border-radius:15px;
+    cursor:pointer;
+    border:1px solid #eee;
+}
+
+.option:hover {
+    background:#ffeaf3;
+}
+
+.result {
+    display:none;
+    text-align:center;
+    background:#fff9e8;
+    border-radius:25px;
+    padding:30px;
+    margin-top:30px;
+}
+
+.result h2 {
+    color:#e28b3c;
+    font-size:40px;
+}
+
+.flower-bed {
+    text-align:center;
+    font-size:35px;
+    margin-top:20px;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<!-- 정원 꽃들 -->
+<div class="flower" style="left:5%;top:10%">🌸</div>
+<div class="flower" style="left:85%;top:15%">🌷</div>
+<div class="flower" style="left:20%;top:80%">🌼</div>
+<div class="flower" style="left:75%;top:70%">🌺</div>
+<div class="flower" style="left:50%;top:5%">🌻</div>
+<div class="flower" style="left:90%;top:85%">🌹</div>
+
+
+<div class="container">
+
+<h1>🌸 학교생활 MBTI 정원 🌸</h1>
+
+<p class="subtitle">
+학교에서 나는 어떤 꽃일까?<br>
+나의 공부 스타일, 친구 관계, 활동 성향으로 알아보는 MBTI
+</p>
+
+
+<div id="quiz"></div>
+
+<button onclick="showResult()">나의 MBTI 확인하기 🌱</button>
+
+
+<div class="result" id="result">
+    <h2 id="mbti"></h2>
+    <p id="desc"></p>
+    <div class="flower-bed">
+        🌷 🌸 🌼 🌻 🌺
+    </div>
+</div>
+
+
+</div>
+
+
+<script>
+
+const questions = [
+
+{
+q:"쉬는 시간에 나는?",
+a:"친구들과 이야기하며 에너지를 얻는다 (E)",
+b:"혼자 조용히 쉬며 충전한다 (I)",
+type:"EI"
+},
+
+{
+q:"수행평가 준비를 할 때 나는?",
+a:"새로운 아이디어를 자유롭게 생각한다 (N)",
+b:"정해진 자료와 현실적인 방법을 찾는다 (S)",
+type:"NS"
+},
+
+{
+q:"친구가 고민을 이야기하면?",
+a:"공감하며 감정을 먼저 생각한다 (F)",
+b:"해결 방법을 논리적으로 생각한다 (T)",
+type:"FT"
+},
+
+{
+q:"시험 기간 공부 계획은?",
+a:"그날그날 상황에 맞춰 바꾼다 (P)",
+b:"미리 계획표를 만들고 지킨다 (J)",
+type:"PJ"
+},
+
+{
+q:"조별 활동에서 나는?",
+a:"먼저 의견을 내고 분위기를 이끈다 (E)",
+b:"필요할 때 의견을 조용히 낸다 (I)",
+type:"EI"
+},
+
+{
+q:"새로운 동아리에 들어갈 때?",
+a:"재미와 가능성을 먼저 본다 (N)",
+b:"실제로 도움이 되는지를 본다 (S)",
+type:"NS"
+},
+
+{
+q:"친구와 갈등이 생기면?",
+a:"상대의 마음을 먼저 생각한다 (F)",
+b:"누가 맞는지 사실을 따진다 (T)",
+type:"FT"
+},
+
+{
+q:"학교 축제 준비 스타일은?",
+a:"즉흥적으로 아이디어를 추가한다 (P)",
+b:"역할과 일정을 정리한다 (J)",
+type:"PJ"
+},
+
+{
+q:"발표 전 나는?",
+a:"친구들과 연습하며 긴장을 푼다 (E)",
+b:"혼자 준비하며 집중한다 (I)",
+type:"EI"
+},
+
+{
+q:"수업에서 흥미로운 것은?",
+a:"새로운 개념과 상상할 거리 (N)",
+b:"실생활에서 활용되는 내용 (S)",
+type:"NS"
+},
+
+{
+q:"친구가 실수했을 때?",
+a:"괜찮다고 위로한다 (F)",
+b:"다음 방법을 알려준다 (T)",
+type:"FT"
+},
+
+{
+q:"숙제 제출 방식은?",
+a:"마감 직전에 집중한다 (P)",
+b:"미리 끝내 마음 편하다 (J)",
+type:"PJ"
+}
+
+];
+
+
+let answers=[];
+
+const quiz=document.getElementById("quiz");
+
+
+questions.forEach((item,index)=>{
+
+let div=document.createElement("div");
+div.className="question";
+
+div.innerHTML=`
+<p>${index+1}. ${item.q}</p>
+
+<label class="option">
+<input type="radio" name="q${index}" onclick="select('${item.a.slice(-2)}','${item.type}')">
+${item.a}
+</label>
+
+<label class="option">
+<input type="radio" name="q${index}" onclick="select('${item.b.slice(-2)}','${item.type}')">
+${item.b}
+</label>
+`;
+
+quiz.appendChild(div);
+
+});
+
+
+function select(value,type){
+
+answers.push({
+type:type,
+value:value
+});
+
+}
+
+
+
+function showResult(){
+
+let count={
+E:0,I:0,
+N:0,S:0,
+F:0,T:0,
+P:0,J:0
+};
+
+
+answers.forEach(a=>{
+count[a.value]++;
+});
+
+
+let result="";
+
+result += count.E>=count.I ? "E":"I";
+result += count.N>=count.S ? "N":"S";
+result += count.F>=count.T ? "F":"T";
+result += count.P>=count.J ? "P":"J";
+
+
+const descriptions={
+
+ENFP:"🌸 아이디어 꽃 - 친구들과 함께 새로운 일을 만드는 창의적인 리더",
+
+ISTJ:"🌿 책임감 나무 - 계획을 세우고 꾸준히 목표를 이루는 학생",
+
+INFJ:"🌙 달빛 꽃 - 깊게 생각하고 친구를 이해하는 따뜻한 조력자",
+
+ENTP:"🌻 탐험 꽃 - 새로운 도전을 즐기는 아이디어 뱅크",
+
+ISFP:"🌷 감성 꽃 - 조용하지만 자신만의 색깔이 있는 예술가",
+
+ESTJ:"🌱 정원사 꽃 - 모두를 이끌고 체계를 만드는 관리자",
+
+INFP:"🌺 꿈꾸는 꽃 - 상상력이 풍부하고 마음이 따뜻한 사람",
+
+INTJ:"🌲 전략 나무 - 목표를 세우고 해결책을 찾는 계획가"
+
+};
+
+
+document.getElementById("mbti").innerText=result;
+
+document.getElementById("desc").innerText=
+descriptions[result] || 
+"🌼 나만의 특별한 꽃 - 다양한 매력을 가진 학교생활 탐험가";
+
+document.getElementById("result").style.display="block";
+
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:"smooth"
+});
+
+}
+
+</script>
+
+
+</body>
+</html>
