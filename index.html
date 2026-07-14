@@ -1,580 +1,518 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>학교생활 MBTI Adventure</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Pretendard",sans-serif;
-}
-
-body{
-
-overflow:hidden;
-background:linear-gradient(#BDE8FF,#DFF7FF);
-
-}
-
-/* ========================= */
-
-#game{
-
-width:100vw;
-height:100vh;
-position:relative;
-overflow:hidden;
-
-}
-
-/* ========================= */
-/* 배경 */
-
-.sky{
-
-position:absolute;
-width:100%;
-height:100%;
-background:linear-gradient(#AEE5FF,#E6FAFF);
-
-}
-
-/* ========================= */
-
-.cloud{
-
-position:absolute;
-background:white;
-border-radius:100px;
-
-box-shadow:
-20px 10px white,
-40px 0 white,
-60px 15px white;
-
-opacity:.9;
-
-animation:cloudMove linear infinite;
-
-}
-
-@keyframes cloudMove{
-
-from{
-
-transform:translateX(-300px);
-
-}
-
-to{
-
-transform:translateX(calc(100vw + 300px));
-
-}
-
-}
-
-/* ========================= */
-
-.grass{
-
-position:absolute;
-
-bottom:0;
-
-width:100%;
-height:180px;
-
-background:#9CE58A;
-
-overflow:hidden;
-
-}
-
-/* ========================= */
-
-.blade{
-
-position:absolute;
-
-bottom:0;
-
-width:6px;
-height:50px;
-
-background:#74D96B;
-
-border-radius:50px;
-
-transform-origin:bottom;
-
-animation:grassWave 2s ease-in-out infinite;
-
-}
-
-@keyframes grassWave{
-
-0%{transform:rotate(-3deg);}
-50%{transform:rotate(3deg);}
-100%{transform:rotate(-3deg);}
-
-}
-
-/* ========================= */
-
-.flower{
-
-position:absolute;
-
-bottom:120px;
-
-width:14px;
-height:14px;
-
-border-radius:50%;
-
-background:pink;
-
-animation:flower 3s ease-in-out infinite;
-
-}
-
-.flower:after{
-
-content:"";
-
-position:absolute;
-
-left:5px;
-top:14px;
-
-width:4px;
-height:25px;
-
-background:#4CAF50;
-
-}
-
-@keyframes flower{
-
-0%{transform:rotate(-5deg);}
-50%{transform:rotate(5deg);}
-100%{transform:rotate(-5deg);}
-
-}
-
-/* ========================= */
-/* 메인 메뉴 */
-
-#menu{
-
-position:absolute;
-
-left:50%;
-top:50%;
-
-transform:translate(-50%,-50%);
-
-width:420px;
-
-background:rgba(255,255,255,.88);
-
-backdrop-filter:blur(10px);
-
-border-radius:35px;
-
-padding:35px;
-
-box-shadow:
-
-0 20px 40px rgba(0,0,0,.15);
-
-text-align:center;
-
-}
-
-/* ========================= */
-
-h1{
-
-font-size:38px;
-
-color:#4F7F64;
-
-margin-bottom:10px;
-
-}
-
-.subtitle{
-
-margin-bottom:35px;
-
-color:#777;
-
-}
-
-/* ========================= */
-
-button{
-
-width:260px;
-
-padding:18px;
-
-margin:10px;
-
-font-size:20px;
-
-border:none;
-
-border-radius:40px;
-
-background:#95D88A;
-
-cursor:pointer;
-
-transition:.2s;
-
-box-shadow:0 8px #74BC68;
-
-}
-
-button:hover{
-
-transform:translateY(-3px);
-
-}
-
-button:active{
-
-transform:translateY(6px);
-
-box-shadow:0 2px #74BC68;
-
-}
-
-/* ========================= */
-
-canvas{
-
-display:none;
-
-position:absolute;
-
-left:0;
-top:0;
-
-width:100%;
-height:100%;
-
-}
-
-.footer{
-
-margin-top:20px;
-font-size:13px;
-color:#888;
-
-}
-
-</style>
-</head>
-
-<body>
-
-<div id="game">
-
-<div class="sky" id="sky"></div>
-
-<div class="grass" id="grass"></div>
-
-<div id="menu">
-
-<h1>🏫 학교생활 MBTI Adventure</h1>
-
-<div class="subtitle">
-
-NPC와 대화하며 나만의 학교 성향을 찾아보세요.
-
-</div>
-
-<button id="startBtn">🎮 게임 시작</button>
-
-<button>⚙ 설정</button>
-
-<button>📖 도감</button>
-
-<button>👨‍💻 제작자</button>
-
-<div class="footer">
-
-Prototype Step 1
-
-</div>
-
-</div>
-
-<canvas id="canvas"></canvas>
-
-</div>
-
-<script>
-
-/* ========================= */
-/* 구름 */
-
-const sky=document.getElementById("sky");
-
-for(let i=0;i<8;i++){
-
-let c=document.createElement("div");
-
-c.className="cloud";
-
-c.style.width=80+Math.random()*80+"px";
-
-c.style.height=35+Math.random()*20+"px";
-
-c.style.left=Math.random()*window.innerWidth+"px";
-
-c.style.top=Math.random()*220+"px";
-
-c.style.animationDuration=20+Math.random()*20+"s";
-
-sky.appendChild(c);
-
-}
-
-/* ========================= */
-/* 잔디 */
-
-const grass=document.getElementById("grass");
-
-for(let i=0;i<350;i++){
-
-let b=document.createElement("div");
-
-b.className="blade";
-
-b.style.left=i*6+"px";
-
-b.style.animationDelay=Math.random()*2+"s";
-
-b.style.height=30+Math.random()*40+"px";
-
-grass.appendChild(b);
-
-}
-
-/* ========================= */
-/* 꽃 */
-
-for(let i=0;i<45;i++){
-
-let f=document.createElement("div");
-
-f.className="flower";
-
-f.style.left=Math.random()*window.innerWidth+"px";
-
-f.style.animationDelay=Math.random()*3+"s";
-
-grass.appendChild(f);
-
-}
-
-/* ========================= */
-
-const menu=document.getElementById("menu");
-
-const canvas=document.getElementById("canvas");
-
-const ctx=canvas.getContext("2d");
-
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-/* ========================= */
-
-document.getElementById("startBtn").onclick=()=>{
-
-menu.animate([
-
-{
-
-transform:"translate(-50%,-50%) scale(1)"
-
-},
-
-{
-
-transform:"translate(-50%,-50%) scale(1.3)",
-
-opacity:0
-
-}
-
-],{
-
-duration:600,
-
-fill:"forwards"
-
-});
-
-setTimeout(()=>{
-
-menu.style.display="none";
-
-canvas.style.display="block";
-
-startGame();
-
-},600);
-
-}
-
-/* ========================= */
-
-function startGame(){
-
-draw();
-
-}
-
-/* ========================= */
-
-function draw(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-/* 임시 메시지 */
-
-ctx.fillStyle="white";
-
-ctx.font="50px sans-serif";
-
-ctx.textAlign="center";
-
-ctx.fillText(
-
-"STEP 1 완료",
-
-canvas.width/2,
-
-canvas.height/2
-
-);
-
-ctx.font="28px sans-serif";
-
-ctx.fillText(
-
-"다음 단계에서 학교 맵이 생성됩니다.",
-
-canvas.width/2,
-
-canvas.height/2+60
-
-);
-
-requestAnimationFrame(draw);
-
-}
-
-</script>
-
-</body>
-</html>
-class Player{
-
-    constructor(){
-
-        this.x=400;
-        this.y=300;
-
-        this.width=48;
-        this.height=48;
-
-        this.speed=4;
-
-        this.dx=0;
-        this.dy=0;
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>학교생활 MBTI Adventure</title>
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================
+       [4. UI 디자인 & 10. 애니메이션 스타일]
+       ========================================== */
+    :root {
+      --bg-pastel-sky: #e3f2fd;
+      --bg-pastel-grass: #edf7ed;
+      --ui-primary: #fff9db;
+      --ui-border: #ffec99;
+      --text-main: #5c940d;
+      --text-dark: #2b2b2b;
     }
 
-}const keys={};
+    * {
+      box-sizing: border-box;
+      font-family: 'Gaegu', cursive, sans-serif;
+      user-select: none;
+    }
 
-window.addEventListener("keydown",(e)=>{
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--bg-pastel-sky);
+    }
 
-keys[e.key]=true;
+    /* 화면 전환용 컨테이너 (Bounce 효과) */
+    .screen {
+      display: none;
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
 
-});
+    .screen.active { display: flex; }
 
-window.addEventListener("keyup",(e)=>{
+    /* 통통 튀는 애니메이션 정의 */
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes blink {
+      0%, 90%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.1); }
+    }
 
-keys[e.key]=false;
+    /* 공통 둥근 UI 컴포넌트 */
+    .btn {
+      background: var(--ui-primary);
+      border: 4px solid var(--ui-border);
+      border-radius: 20px;
+      padding: 12px 28px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--text-dark);
+      cursor: pointer;
+      box-shadow: 0 6px 0 #e6c875;
+      transition: all 0.1s ease;
+      margin: 10px;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #e6c875;
+      background: #fffbfa;
+    }
+    .btn:active {
+      transform: translateY(6px);
+      box-shadow: 0 0 0 #e6c875;
+    }
 
-});player.dx=0;
-player.dy=0;
+    /* 1. 시작 화면 */
+    #start-screen {
+      background: linear-gradient(to bottom, #d0ebff, #ebfbee);
+    }
+    .title {
+      font-size: 3.5rem;
+      color: #3b5bdb;
+      text-shadow: 3px 3px 0px #fff;
+      animation: float 3s ease-in-out infinite;
+      margin-bottom: 30px;
+      text-align: center;
+    }
 
-if(keys["w"]||keys["ArrowUp"])
-player.dy=-player.speed;
+    /* 2. 캐릭터 생성 화면 */
+    #custom-screen { background: #fff9db; }
+    .custom-container {
+      display: flex;
+      background: white;
+      padding: 30px;
+      border-radius: 30px;
+      border: 5px solid #ffa8a8;
+      box-shadow: 0 10px 0 #ffc9c9;
+      align-items: center;
+      gap: 40px;
+    }
+    .avatar-preview-box {
+      width: 150px;
+      height: 150px;
+      background: #f1f3f5;
+      border-radius: 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-if(keys["s"]||keys["ArrowDown"])
-player.dy=player.speed;
+    /* 3. 게임 맵 & 플레이어 & NPC 관련 */
+    #game-screen { background: var(--bg-pastel-grass); }
+    #map-container {
+      position: relative;
+      width: 1000px;
+      height: 600px;
+      background: #e2f0d9;
+      border: 8px solid #c5e1a5;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: inset 0 0 50px rgba(0,0,0,0.05);
+    }
+    
+    /* 환경 요소 (구름, 연못, 정원 구획 등) */
+    .environment {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.6);
+    }
+    .pond {
+      position: absolute;
+      bottom: 50px; left: 100px; width: 180px; height: 100px;
+      background: #a5d8ff; border-radius: 40% 50% 30% 40%;
+      border: 4px dashed #74c0fc;
+    }
+    .garden {
+      position: absolute;
+      top: 60px; right: 120px; width: 200px; height: 120px;
+      background: #ffe3e3; border-radius: 20px;
+      border: 4px dotted #ffa8a8;
+      display: flex; flex-wrap: wrap; padding: 10px; gap: 10px;
+    }
+    .flower { width: 15px; height: 15px; background: #ff8787; border-radius: 50%; }
 
-if(keys["a"]||keys["ArrowLeft"])
-player.dx=-player.speed;
+    /* 개체(Player, NPC) 공통 */
+    .entity {
+      position: absolute;
+      width: 48px;
+      height: 60px;
+      transition: left 0.2s linear, top 0.2s linear;
+      z-index: 10;
+    }
+    
+    /* 귀여운 캐릭터 드로잉 (CSS 조합) */
+    .char-body {
+      width: 100%; height: 80%;
+      border-radius: 24px 24px 15px 15px;
+      position: relative;
+      box-shadow: inset 0 -5px 0 rgba(0,0,0,0.1);
+    }
+    .char-eyes {
+      position: absolute; top: 15px; left: 8px; right: 8px;
+      display: flex; justify-content: space-between;
+    }
+    .char-eye {
+      width: 8px; height: 8px; background: #000; border-radius: 50%;
+      animation: blink 4s infinite;
+    }
+    .char-shadow {
+      position: absolute; bottom: -5px; left: 4px; width: 40px; height: 10px;
+      background: rgba(0,0,0,0.15); border-radius: 50%; z-index: -1;
+    }
 
-if(keys["d"]||keys["ArrowRight"])
-player.dx=player.speed;let len=Math.hypot(player.dx,player.dy);
+    /* NPC 말걸기 알림 ❕ */
+    .interaction-mark {
+      position: absolute; top: -30px; left: 14px;
+      font-size: 1.5rem; font-weight: bold; color: #ff922b;
+      animation: float 1s ease-in-out infinite;
+      display: none;
+    }
 
-if(len>0){
+    /* 대화창 UI */
+    #dialogue-box {
+      position: absolute; bottom: 20px; left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      width: 90%; max-width: 700px;
+      background: white; border: 5px solid #ffc9c9;
+      border-radius: 25px; padding: 20px; display: none;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+      z-index: 100;
+    }
+    #dialogue-box.active { display: block; transform: translateX(-50%) scale(1); transition: 0.2s; }
+    .npc-name { font-size: 1.4rem; font-weight: bold; color: #e8590c; margin-bottom: 5px; }
+    .dialogue-text { font-size: 1.3rem; color: #343a40; min-height: 50px; }
+    .options-container { display: flex; flex-direction: column; margin-top: 15px; }
+    .option-btn {
+      background: #f1f3f5; border: 2px solid #dee2e6;
+      border-radius: 12px; padding: 10px; margin: 4px 0;
+      text-align: left; font-size: 1.1rem; cursor: pointer;
+    }
+    .option-btn:hover { background: #e3fafc; border-color: #99e9f2; }
 
-player.dx/=len;
-player.dy/=len;
+    /* HUD */
+    .hud {
+      position: absolute; top: 20px; left: 20px;
+      background: rgba(255,255,255,0.8); padding: 10px 20px;
+      border-radius: 15px; font-weight: bold; font-size: 1.2rem;
+    }
 
-player.dx*=player.speed;
-player.dy*=player.speed;
+    /* 4. 결과 화면 */
+    #result-screen { background: #fff4e6; }
+    .stage {
+      text-align: center; background: white; padding: 40px;
+      border-radius: 30px; border: 6px dashed #ffa94d;
+      box-shadow: 0 10px 0 #ffe8cc;
+    }
+    .mbti-title { font-size: 2.5rem; color: #fd7e14; margin: 10px 0; }
+    .mbti-code { font-size: 4rem; color: #e8590c; font-weight: bold; }
+  </style>
+</head>
+<body>
 
-}player.x+=player.dx;
-player.y+=player.dy;ctx.beginPath();
+  <div id="start-screen" class="screen active">
+    <h1 class="title">🏫 학교생활<br>MBTI Adventure</h1>
+    <button class="btn" onclick="changeScreen('custom-screen')">게임 시작</button>
+    <button class="btn" onclick="alert('제작자: 시니어 캠퍼스 크루')">제작자</button>
+  </div>
 
-ctx.arc(player.x,player.y,22,0,Math.PI*2);
+  <div id="custom-screen" class="screen">
+    <h2 class="title" style="font-size: 2.5rem;">내 캐릭터 만들기</h2>
+    <div class="custom-container">
+      <div class="avatar-preview-box">
+        <div id="preview-avatar" class="entity" style="position: relative; top:0; left:0;">
+          <div class="char-body" id="preview-body" style="background-color: #ffc9c9;">
+            <div class="char-eyes"><div class="char-eye"></div><div class="char-eye"></div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3>퍼스널 컬러 선택</h3>
+        <button class="btn" style="background:#ffc9c9; width:40px; height:40px; padding:0;" onclick="customizeColor('#ffc9c9')"></button>
+        <button class="btn" style="background:#a5d8ff; width:40px; height:40px; padding:0;" onclick="customizeColor('#a5d8ff')"></button>
+        <button class="btn" style="background:#b2f2bb; width:40px; height:40px; padding:0;" onclick="customizeColor('#b2f2bb')"></button>
+        <br><br>
+        <button class="btn" onclick="startGame()">학교 입장하기!</button>
+      </div>
+    </div>
+  </div>
 
-ctx.fillStyle="#FFD89C";
+  <div id="game-screen" class="screen">
+    <div class="hud">🌳 탐험 진행도: <span id="progress-text">0</span> / 4</div>
+    
+    <div id="map-container">
+      <div class="pond"></div>
+      <div class="garden">
+        <div class="flower"></div><div class="flower"></div><div class="flower"></div>
+      </div>
+      
+      <div id="player" class="entity">
+        <div class="char-body" id="player-body" style="background-color: #ffc9c9;">
+          <div class="char-eyes"><div class="char-eye"></div><div class="char-eye"></div></div>
+        </div>
+        <div class="char-shadow"></div>
+      </div>
 
-ctx.fill();ctx.beginPath();
+      <div id="npc-layer"></div>
+    </div>
 
-ctx.arc(player.x-7,player.y-3,2,0,Math.PI*2);
+    <p style="color: #666; margin-top: 10px;">상하좌우 키보드 방향키 또는 WASD로 이동하여 동물 친구들에게 말을 걸어보세요!</p>
 
-ctx.arc(player.x+7,player.y-3,2,0,Math.PI*2);
+    <div id="dialogue-box">
+      <div class="npc-name" id="dialogue-npc-name">NPC 이름</div>
+      <div class="dialogue-text" id="dialogue-text">대화 내용이 들어갑니다.</div>
+      <div class="options-container" id="options-container"></div>
+    </div>
+  </div>
 
-ctx.fillStyle="#333";
+  <div id="result-screen" class="screen">
+    <div class="stage">
+      <h2 style="margin:0; color:#868e96;">🎉 당신의 학교 생활 성향은?</h2>
+      <div class="mbti-title" id="res-title">학교 분위기 메이커</div>
+      <div class="mbti-code" id="res-code">ENFP</div>
+      <p id="res-desc" style="font-size: 1.2rem; color: #495057; max-width: 400px; margin: 20px auto; line-height: 1.6;">
+        친구들과 소통하는 것을 좋아하며 학교 축제나 이벤트의 중심에서 모두를 즐겁게 만듭니다!
+      </p>
+      <button class="btn" onclick="location.reload()">다시 탐험하기</button>
+    </div>
+  </div>
 
-ctx.fill();ctx.beginPath();
+  <script>
+    // --- [기본 상태 저장 및 데이터 구조] ---
+    const state = {
+      currentScreen: 'start-screen',
+      player: { x: 450, y: 280, color: '#ffc9c9', speed: 15 },
+      mbtiScores: { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 },
+      completedNpcs: new Set()
+    };
 
-ctx.arc(player.x,player.y+4,6,0,Math.PI);
+    // --- [7. NPC 데이터 정의] ---
+    const npcs = [
+      {
+        id: 'rabbit', name: '래비 (토끼)', color: '#ffdeeb', x: 200, y: 120,
+        type: 'EI', question: "“우아, 드디어 쉬는 시간이다! 지금 보니까 운동장에서 애들이 발야구 하던데, 너도 같이 낄래?”",
+        options: [
+          { text: "“좋아! 당장 나가서 같이 땀 흘려야지!”", type: 'E' },
+          { text: "“난 교실이나 도서관에서 조용히 책 읽을래.”", type: 'I' }
+        ]
+      },
+      {
+        id: 'puppy', name: '도기 (강아지)', color: '#ffe8cc', x: 750, y: 150,
+        type: 'JP', question: "“야 너 들었어? 다음 주가 벌써 기말고사래... 너 공부 시작했어?”",
+        options: [
+          { text: "“당연하지! 과목별로 완벽한 계획표 이미 짜뒀어.”", type: 'J' },
+          { text: "“시험은 원래 전날 벼락치기가 진리 아니겠어? 닥치면 해!”", type: 'P' }
+        ]
+      },
+      {
+        id: 'fox', name: '폭시 (여우)', color: '#ffd8a8', x: 250, y: 420,
+        type: 'TF', question: "“옆반 친구가 시험 점수 때문에 속상하다고 엉엉 울고 있더라고... 나라면 이럴 때 말야,”",
+        options: [
+          { text: "“틀린 문제를 같이 분석하고 실질적인 해결책을 준다.”", type: 'T' },
+          { text: "“따뜻하게 안아주며 속상한 마음에 먼저 공감해준다.”", type: 'F' }
+        ]
+      },
+      {
+        id: 'cat', name: '네코 (고양이)', color: '#e5dbff', x: 700, y: 400,
+        type: 'SN', question: "“이번에 학교에 엄청 특이하고 새로운 이색 동아리가 생겼대! 넌 가입할 거야?”",
+        options: [
+          { text: "“기존 선배들 후기나 구체적인 활동 실적을 보고 결정할래.”", type: 'S' },
+          { text: "“이름만 들어도 재밌겠다! 우선 직감대로 바로 신청 고!”", type: 'N' }
+        ]
+      }
+    ];
 
-ctx.stroke();function gameLoop(){
+    // --- [화면 전환 시스템] ---
+    function changeScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+      state.currentScreen = screenId;
+    }
 
-update();
+    // --- [6. 캐릭터 커스터마이징 및 시작] ---
+    function customizeColor(color) {
+      state.player.color = color;
+      document.getElementById('preview-body').style.backgroundColor = color;
+    }
 
-render();
+    function startGame() {
+      document.getElementById('player-body').style.backgroundColor = state.player.color;
+      changeScreen('game-screen');
+      initNpcs();
+      updatePlayerPosition();
+      // 14. 사운드 플레이 예시 플레이스홀더 (오디오 컨텍스트 활성화용)
+      console.log("🎮 Game BGM & Sound System Ready.");
+    }
 
-requestAnimationFrame(gameLoop);
+    // --- [7. NPC 배치 및 초기화] ---
+    function initNpcs() {
+      const layer = document.getElementById('npc-layer');
+      layer.innerHTML = '';
+      npcs.forEach(npc => {
+        const div = document.createElement('div');
+        div.id = `npc-${npc.id}`;
+        div.className = 'entity';
+        div.style.left = `${npc.x}px`;
+        div.style.top = `${npc.y}px`;
+        div.innerHTML = `
+          <div class="char-body" style="background-color: ${npc.color}">
+            <div class="char-eyes"><div class="char-eye"></div><div class="char-eye"></div></div>
+          </div>
+          <div class="interaction-mark" id="mark-${npc.id}">❕</div>
+          <div class="char-shadow"></div>
+        `;
+        layer.appendChild(div);
+      });
+    }
 
-}function update(){
+    // --- [5. 플레이어 이동 및 인터랙션 충돌 검사] ---
+    function updatePlayerPosition() {
+      const p = document.getElementById('player');
+      p.style.left = `${state.player.x}px`;
+      p.style.top = `${state.player.y}px`;
+      checkProximity();
+    }
 
-player.move();
+    function checkProximity() {
+      let closeToNpc = null;
+      npcs.forEach(npc => {
+        const dist = Math.hypot(state.player.x - npc.x, state.player.y - npc.y);
+        const mark = document.getElementById(`mark-${npc.id}`);
+        
+        // 60픽셀 이내 접근 시 ❕ 느낌표 활성화
+        if (dist < 60 && !state.completedNpcs.has(npc.id)) {
+          mark.style.display = 'block';
+          closeToNpc = npc;
+        } else {
+          mark.style.display = 'none';
+        }
+      });
+      state.activeNpc = closeToNpc;
+    }
 
-}ctx.clearRect(0,0,canvas.width,canvas.height);
+    // 키보드 컨트롤 입력을 통한 실시간 2D 평면 좌표 이동
+    window.addEventListener('keydown', (e) => {
+      if (state.currentScreen !== 'game-screen') return;
+      if (document.getElementById('dialogue-box').classList.contains('active')) return;
 
-player.draw();
+      switch(e.key.toLowerCase()) {
+        case 'arrowup': case 'w': state.player.y = Math.max(0, state.player.y - state.player.speed); break;
+        case 'arrowdown': case 's': state.player.y = Math.min(540, state.player.y + state.player.speed); break;
+        case 'arrowleft': case 'a': state.player.x = Math.max(0, state.player.x - state.player.speed); break;
+        case 'arrowright': case 'd': state.player.x = Math.min(950, state.player.x + state.player.speed); break;
+        case 'e': 
+          if (state.activeNpc) openDialogue(state.activeNpc);
+          return;
+      }
+      updatePlayerPosition();
+    });
+
+    // 맵 컴포넌트 마우스/터치 클릭 이동 지원
+    document.getElementById('map-container').addEventListener('click', (e) => {
+      if (state.currentScreen !== 'game-screen') return;
+      if (document.getElementById('dialogue-box').classList.contains('active')) return;
+      
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left - 24;
+      const clickY = e.clientY - rect.top - 30;
+
+      state.player.x = Math.max(0, Math.min(950, clickX));
+      state.player.y = Math.max(0, Math.min(540, clickY));
+      updatePlayerPosition();
+
+      // 클릭 직후 즉시 상호작용 가능한 거리면 대화 자동 오픈
+      setTimeout(() => {
+        if (state.activeNpc) openDialogue(state.activeNpc);
+      }, 200);
+    });
+
+    // --- [8. 대화창 & 9. MBTI 분석 시스템] ---
+    function openDialogue(npc) {
+      const box = document.getElementById('dialogue-box');
+      document.getElementById('dialogue-npc-name').innerText = npc.name;
+      document.getElementById('dialogue-text').innerText = npc.question;
+      
+      const optContainer = document.getElementById('options-container');
+      optContainer.innerHTML = '';
+
+      npc.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt.text;
+        btn.onclick = () => selectOption(npc.id, opt.type);
+        optContainer.appendChild(btn);
+      });
+
+      box.classList.add('active');
+    }
+
+    function selectOption(npcId, type) {
+      // 스코어 누적 계산
+      state.mbtiScores[type]++;
+      state.completedNpcs.add(npcId);
+      
+      // UI 업데이트
+      document.getElementById('dialogue-box').classList.remove('active');
+      document.getElementById(`mark-${npcId}`).style.display = 'none';
+      document.getElementById('progress-text').innerText = state.completedNpcs.size;
+
+      // 모든 동물들과 대화 완료 시 즉시 축제 피날레 무대로 진입
+      if (state.completedNpcs.size === npcs.length) {
+        setTimeout(showResult, 600);
+      }
+    }
+
+    // --- [11. 결과 연산 시스템] ---
+    const mbtiArchetypes = {
+      'ENFP': { title: '학교 분위기 메이커', desc: '풍부한 상상력과 에너지가 넘쳐나며, 학교의 모든 축제와 이벤트를 기획하고 이끄는 최고의 인싸 리더입니다!' },
+      'INFJ': { title: '영혼을 달래는 멘토', desc: '통찰력이 뛰어나며 조용히 친구들의 고민을 진심으로 들어주는 따뜻하고 신비로운 심리 상담가 스타일입니다.' },
+      'ESTJ': { title: '완벽주의 학생회장', desc: '명확한 규칙과 체계를 좋아하며 철저한 시간 계획과 강력한 추진력으로 학급의 대소사를 빈틈없이 해결합니다.' },
+      'INTP': { title: '비밀 연구실의 과학자', desc: '혼자서 깊게 탐구하는 것을 즐기며 독창적인 아이디어와 문제 해결력으로 학교의 난제들을 분석하는 브레인입니다.' }
+    };
+
+    function showResult() {
+      const s = state.mbtiScores;
+      const resE = s.E >= s.I ? 'E' : 'I';
+      const resN = s.N >= s.S ? 'N' : 'S';
+      const resF = s.F >= s.T ? 'F' : 'T';
+      const resP = s.P >= s.J ? 'P' : 'J';
+      
+      const finalMbti = `${resE}${resN}${resF}${resP}`;
+      
+      // 예시 스크립트에 정비되지 않은 기본 조합 마스킹 처리
+      const resultData = mbtiArchetypes[finalMbti] || { 
+        title: '다재다능한 학교 탐험가', 
+        desc: '균형 잡힌 시각으로 학교 내 다양한 동아리와 학업을 조화롭게 적응해 나가는 매력적인 친구입니다!' 
+      };
+
+      document.getElementById('res-title').innerText = resultData.title;
+      document.getElementById('res-code').innerText = finalMbti;
+      document.getElementById('res-desc').innerText = resultData.desc;
+
+      changeScreen('result-screen');
+    }
+  </script>
+</body>
+</html>
