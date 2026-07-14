@@ -1,1755 +1,580 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>🐱 학교생활 MBTI 정원 테스트</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-
+<title>학교생활 MBTI Adventure</title>
 
 <style>
 
-</style>
-
-
-</head>
-
-
-<body>
-
-
-<!-- 움직이는 하늘 -->
-
-<div class="sky">
-
-
-    <div class="sun"></div>
-
-
-    <div class="cloud cloud1"></div>
-
-    <div class="cloud cloud2"></div>
-
-
-    <div class="spark spark1">✦</div>
-
-    <div class="spark spark2">✦</div>
-
-    <div class="spark spark3">✦</div>
-
-
-</div>
-
-
-
-<!-- 정원 -->
-
-<div class="garden">
-
-
-    <div class="flower f1">🌷</div>
-
-    <div class="flower f2">🌼</div>
-
-    <div class="flower f3">🌻</div>
-
-    <div class="flower f4">🌹</div>
-
-
-</div>
-
-
-
-
-<!-- 메인 -->
-
-<div class="container">
-
-
-
-<!-- 고양이 -->
-
-<div class="cat-area">
-
-
-<div class="cat" id="cat">
-
-
-    <!-- 꼬리 -->
-
-    <div class="tail"></div>
-
-
-    <!-- 귀 -->
-
-    <div class="ear left-ear"></div>
-
-    <div class="ear right-ear"></div>
-
-
-
-    <!-- 얼굴 -->
-
-    <div class="face">
-
-
-        <div class="eye left-eye">
-
-        </div>
-
-
-        <div class="eye right-eye">
-
-        </div>
-
-
-
-        <div class="nose">
-
-        ♥
-        
-        </div>
-
-
-
-        <div class="mouth">
-
-        </div>
-
-
-
-    </div>
-
-
-
-
-    <!-- 발 -->
-
-    <div class="paw left-paw"></div>
-
-    <div class="paw right-paw"></div>
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-<h1>
-🐾 학교생활 MBTI 정원 테스트
-</h1>
-
-
-<p class="subtitle">
-
-따뜻한 햇살 아래 고양이와 함께 알아보는 나의 학교생활 성향
-
-</p>
-
-
-
-
-
-<!-- 테스트 영역 -->
-
-
-<div id="quiz">
-
-
-<div class="question-box">
-
-
-<div id="question" class="question">
-
-</div>
-
-
-
-<div id="answers">
-
-</div>
-
-
-
-</div>
-
-
-
-<div id="progress">
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-
-
-<!-- 결과 영역 -->
-
-
-<div id="result" class="result">
-
-
-<h2>
-
-🌿 나의 학교생활 고양이는?
-
-</h2>
-
-
-
-<div id="mbti" class="mbti">
-
-</div>
-
-
-
-<div id="description" class="result-card">
-
-</div>
-
-
-
-
-<button onclick="restart()" class="restart">
-
-🐱 다시 테스트하기
-
-</button>
-
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-
-
-
-
-<script>
-
-
-</script>
-
-
-</body>
-
-</html>
 *{
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Pretendard",sans-serif;
 }
-
 
 body{
 
-    margin:0;
-
-    min-height:100vh;
-
-    overflow-x:hidden;
-
-    font-family:'Jua',sans-serif;
-
-    background:
-    linear-gradient(
-        to bottom,
-        #b9e8ff,
-        #fff1c4
-    );
+overflow:hidden;
+background:linear-gradient(#BDE8FF,#DFF7FF);
 
 }
 
+/* ========================= */
 
+#game{
 
-/* ===================
-   하늘 배경
-=================== */
+width:100vw;
+height:100vh;
+position:relative;
+overflow:hidden;
 
+}
+
+/* ========================= */
+/* 배경 */
 
 .sky{
 
-    position:fixed;
-
-    inset:0;
-
-    overflow:hidden;
-
-    z-index:-5;
+position:absolute;
+width:100%;
+height:100%;
+background:linear-gradient(#AEE5FF,#E6FAFF);
 
 }
 
-
-
-.sun{
-
-    position:absolute;
-
-    width:150px;
-
-    height:150px;
-
-    right:80px;
-
-    top:70px;
-
-    border-radius:50%;
-
-    background:#ffe68a;
-
-
-    box-shadow:
-
-    0 0 40px #ffe68a,
-
-    0 0 80px #ffeeb0;
-
-
-    animation:
-
-    sunMove 5s infinite;
-
-}
-
-
-
-@keyframes sunMove{
-
-
-50%{
-
-transform:scale(1.12);
-
-opacity:.8;
-
-}
-
-}
-
-
-
-
-
-/* 구름 */
-
+/* ========================= */
 
 .cloud{
 
 position:absolute;
-
-width:180px;
-
-height:60px;
-
 background:white;
+border-radius:100px;
 
-border-radius:60px;
+box-shadow:
+20px 10px white,
+40px 0 white,
+60px 15px white;
 
-opacity:.75;
+opacity:.9;
 
-}
-
-
-
-.cloud::before,
-
-.cloud::after{
-
-content:"";
-
-position:absolute;
-
-background:white;
-
-border-radius:50%;
+animation:cloudMove linear infinite;
 
 }
 
-
-
-.cloud::before{
-
-width:80px;
-
-height:80px;
-
-left:30px;
-
-top:-35px;
-
-}
-
-
-
-.cloud::after{
-
-width:65px;
-
-height:65px;
-
-right:25px;
-
-top:-25px;
-
-}
-
-
-
-
-.cloud1{
-
-top:100px;
-
-left:-200px;
-
-animation:cloud1 30s linear infinite;
-
-}
-
-
-.cloud2{
-
-top:250px;
-
-left:-250px;
-
-animation:cloud1 40s linear infinite;
-
-animation-delay:10s;
-
-}
-
-
-
-@keyframes cloud1{
-
+@keyframes cloudMove{
 
 from{
 
-transform:translateX(0);
+transform:translateX(-300px);
 
 }
-
 
 to{
 
-transform:translateX(140vw);
+transform:translateX(calc(100vw + 300px));
 
 }
 
 }
 
+/* ========================= */
 
-
-
-
-
-/* 반짝임 */
-
-
-.spark{
+.grass{
 
 position:absolute;
-
-color:white;
-
-font-size:30px;
-
-animation:spark 4s infinite;
-
-}
-
-
-
-.spark1{
-
-left:20%;
-
-top:30%;
-
-}
-
-
-
-.spark2{
-
-left:70%;
-
-top:45%;
-
-animation-delay:2s;
-
-}
-
-
-
-.spark3{
-
-left:50%;
-
-top:20%;
-
-animation-delay:1s;
-
-}
-
-
-
-@keyframes spark{
-
-
-50%{
-
-opacity:0;
-
-transform:
-
-translateY(-40px)
-
-scale(1.5);
-
-}
-
-
-}
-
-
-
-
-
-
-/* ===================
-정원
-=================== */
-
-
-.garden{
-
-position:fixed;
 
 bottom:0;
 
 width:100%;
+height:180px;
 
-height:220px;
+background:#9CE58A;
 
-background:
-
-linear-gradient(
-
-#8bd36b,
-
-#55ad5b
-
-);
-
-
-z-index:-2;
-
+overflow:hidden;
 
 }
 
+/* ========================= */
 
+.blade{
+
+position:absolute;
+
+bottom:0;
+
+width:6px;
+height:50px;
+
+background:#74D96B;
+
+border-radius:50px;
+
+transform-origin:bottom;
+
+animation:grassWave 2s ease-in-out infinite;
+
+}
+
+@keyframes grassWave{
+
+0%{transform:rotate(-3deg);}
+50%{transform:rotate(3deg);}
+100%{transform:rotate(-3deg);}
+
+}
+
+/* ========================= */
 
 .flower{
 
 position:absolute;
 
-bottom:110px;
+bottom:120px;
 
-font-size:45px;
+width:14px;
+height:14px;
 
-animation:flower 3s infinite;
+border-radius:50%;
 
-}
+background:pink;
 
-
-
-.f1{
-
-left:10%;
+animation:flower 3s ease-in-out infinite;
 
 }
 
+.flower:after{
 
-.f2{
+content:"";
 
-left:35%;
+position:absolute;
 
-}
+left:5px;
+top:14px;
 
+width:4px;
+height:25px;
 
-.f3{
-
-right:25%;
-
-}
-
-
-.f4{
-
-right:10%;
+background:#4CAF50;
 
 }
-
-
 
 @keyframes flower{
 
-
-50%{
-
-transform:rotate(10deg);
-
-}
+0%{transform:rotate(-5deg);}
+50%{transform:rotate(5deg);}
+100%{transform:rotate(-5deg);}
 
 }
 
+/* ========================= */
+/* 메인 메뉴 */
 
+#menu{
 
+position:absolute;
 
+left:50%;
+top:50%;
 
+transform:translate(-50%,-50%);
 
+width:420px;
 
-/* ===================
-컨테이너
-=================== */
-
-
-.container{
-
-
-width:90%;
-
-max-width:650px;
-
-margin:40px auto;
-
-
-background:
-
-rgba(255,255,255,.85);
-
+background:rgba(255,255,255,.88);
 
 backdrop-filter:blur(10px);
 
-
-border-radius:40px;
-
+border-radius:35px;
 
 padding:35px;
 
+box-shadow:
+
+0 20px 40px rgba(0,0,0,.15);
 
 text-align:center;
 
-
-box-shadow:
-
-0 15px 40px rgba(0,0,0,.15);
-
-
 }
 
-
-
+/* ========================= */
 
 h1{
 
 font-size:38px;
 
-color:#ff8eb7;
+color:#4F7F64;
+
+margin-bottom:10px;
 
 }
 
-
-
 .subtitle{
+
+margin-bottom:35px;
 
 color:#777;
 
 }
 
+/* ========================= */
 
+button{
 
+width:260px;
 
+padding:18px;
 
-/* ===================
-고양이
-=================== */
-
-
-.cat-area{
-
-height:220px;
-
-position:relative;
-
-}
-
-
-
-
-.cat{
-
-position:absolute;
-
-width:170px;
-
-height:150px;
-
-left:50%;
-
-bottom:0;
-
-
-transform:translateX(-50%);
-
-
-animation:
-
-catFloat 3s infinite;
-
-
-}
-
-
-
-
-
-@keyframes catFloat{
-
-
-50%{
-
-transform:
-
-translateX(-50%)
-
-translateY(-12px);
-
-
-}
-
-
-}
-
-
-
-
-
-/* 얼굴 */
-
-
-.face{
-
-
-position:absolute;
-
-width:150px;
-
-height:120px;
-
-
-background:#ffc98f;
-
-
-border-radius:50%;
-
-
-left:10px;
-
-top:25px;
-
-
-box-shadow:
-
-inset 0 -8px #efa866;
-
-
-}
-
-
-
-
-
-
-
-/* 귀 */
-
-
-.ear{
-
-
-position:absolute;
-
-
-width:55px;
-
-height:60px;
-
-
-background:#ffc98f;
-
-
-top:0;
-
-
-z-index:-1;
-
-
-}
-
-
-
-.left-ear{
-
-
-left:20px;
-
-transform:rotate(-30deg);
-
-
-border-radius:20px 30px 0 30px;
-
-
-animation:earMove 3s infinite;
-
-
-}
-
-
-
-.right-ear{
-
-
-right:20px;
-
-transform:rotate(30deg);
-
-
-border-radius:30px 20px 30px 0;
-
-
-animation:earMove 3s infinite reverse;
-
-
-}
-
-
-
-
-@keyframes earMove{
-
-
-50%{
-
-transform:
-
-rotate(0deg)
-
-translateY(-8px);
-
-}
-
-
-}
-
-
-
-
-
-
-
-/* 눈 */
-
-
-.eye{
-
-
-position:absolute;
-
-
-width:18px;
-
-height:28px;
-
-
-background:#333;
-
-
-border-radius:50%;
-
-
-top:45px;
-
-
-animation:
-
-blink 5s infinite;
-
-
-}
-
-
-
-.left-eye{
-
-left:40px;
-
-}
-
-
-
-.right-eye{
-
-right:40px;
-
-}
-
-
-
-@keyframes blink{
-
-
-0%,90%,100%{
-
-height:28px;
-
-}
-
-
-95%{
-
-height:4px;
-
-}
-
-
-}
-
-
-
-
-
-
-
-/* 코 */
-
-
-.nose{
-
-
-position:absolute;
-
-
-top:72px;
-
-
-left:66px;
-
-
-font-size:22px;
-
-
-color:#ff719e;
-
-
-}
-
-
-
-
-/* 입 */
-
-
-.mouth{
-
-
-position:absolute;
-
-
-width:28px;
-
-
-height:15px;
-
-
-left:61px;
-
-
-top:88px;
-
-
-border-bottom:3px solid #555;
-
-
-border-radius:50%;
-
-
-}
-
-
-
-
-
-/* 발 */
-
-
-.paw{
-
-
-position:absolute;
-
-
-width:45px;
-
-
-height:35px;
-
-
-background:#ffc98f;
-
-
-border-radius:50%;
-
-
-top:110px;
-
-
-}
-
-
-
-.left-paw{
-
-
-left:25px;
-
-
-animation:paw 2s infinite;
-
-
-}
-
-
-
-.right-paw{
-
-
-right:25px;
-
-
-animation:paw 2s infinite reverse;
-
-
-}
-
-
-
-@keyframes paw{
-
-
-50%{
-
-transform:
-
-translateY(-18px)
-
-rotate(20deg);
-
-
-}
-
-}
-
-
-
-
-
-
-
-/* 꼬리 */
-
-
-.tail{
-
-
-position:absolute;
-
-
-right:-35px;
-
-
-bottom:25px;
-
-
-width:70px;
-
-height:90px;
-
-
-border-right:
-
-15px solid #ffc98f;
-
-
-border-radius:50%;
-
-
-animation:tail 1.5s infinite;
-
-
-}
-
-
-
-
-@keyframes tail{
-
-
-50%{
-
-transform:
-
-rotate(25deg);
-
-
-}
-
-}
-
-
-
-
-
-
-
-/* ===================
-질문
-=================== */
-
-
-.question-box{
-
-
-background:#fff7fb;
-
-
-border-radius:30px;
-
-
-padding:30px;
-
-
-}
-
-
-
-.question{
-
-font-size:22px;
-
-line-height:1.5;
-
-
-}
-
-
-
-.answer{
-
-
-width:100%;
-
-
-margin:10px 0;
-
-
-padding:15px;
-
-
-border:none;
-
-
-border-radius:25px;
-
-
-background:#ffe0ed;
-
-
-font-family:inherit;
-
-
-font-size:18px;
-
-
-cursor:pointer;
-
-
-transition:.3s;
-
-
-}
-
-
-
-.answer:hover{
-
-
-background:#ffb5d3;
-
-
-transform:translateY(-5px);
-
-
-}
-
-
-
-
-#progress{
-
-margin-top:15px;
-
-color:#999;
-
-}
-
-
-
-
-
-/* 결과 */
-
-
-.result{
-
-display:none;
-
-}
-
-
-
-.mbti{
-
-
-font-size:65px;
-
-
-color:#ff80ae;
-
-
-}
-
-
-
-.result-card{
-
-
-background:#fff2a8;
-
-
-padding:25px;
-
-
-border-radius:30px;
-
+margin:10px;
 
 font-size:20px;
 
-
-}
-
-
-
-.restart{
-
-
-margin-top:25px;
-
-
-padding:15px 30px;
-
-
 border:none;
 
+border-radius:40px;
 
-border-radius:30px;
+background:#95D88A;
 
+cursor:pointer;
 
-background:#91ddff;
+transition:.2s;
 
-
-font-family:inherit;
-
-
-font-size:18px;
-
+box-shadow:0 8px #74BC68;
 
 }
-const questions = [
 
-{
-text:"학교에 도착하면 친구들에게 먼저 인사하는 편이다.",
-mbti:"E"
-},
+button:hover{
 
-{
-text:"쉬는 시간에는 친구들과 이야기하며 에너지를 얻는다.",
-mbti:"E"
-},
+transform:translateY(-3px);
 
-{
-text:"새로운 아이디어를 생각하는 것을 좋아한다.",
-mbti:"N"
-},
-
-{
-text:"수행평가를 할 때 구체적인 자료와 예시를 중요하게 생각한다.",
-mbti:"S"
-},
-
-{
-text:"친구가 고민을 말하면 공감부터 해주는 편이다.",
-mbti:"F"
-},
-
-{
-text:"문제가 생기면 감정보다 해결 방법을 먼저 생각한다.",
-mbti:"T"
-},
-
-{
-text:"시험 전 미리 계획표를 만드는 편이다.",
-mbti:"J"
-},
-
-{
-text:"계획보다는 그날 상황에 맞춰 움직이는 편이다.",
-mbti:"P"
-},
-
-{
-text:"학교 행사나 모임에서 적극적으로 참여한다.",
-mbti:"E"
-},
-
-{
-text:"수업 내용을 응용해서 새로운 생각을 떠올린다.",
-mbti:"N"
-},
-
-{
-text:"친구들과 의견 충돌이 있을 때 논리적으로 판단한다.",
-mbti:"T"
-},
-
-{
-text:"해야 할 일을 미리 끝내면 마음이 편하다.",
-mbti:"J"
 }
 
-];
+button:active{
 
+transform:translateY(6px);
 
+box-shadow:0 2px #74BC68;
 
-const choices=[
-
-{
-text:"🌞 매우 그렇다",
-score:2
-},
-
-{
-text:"☀️ 그렇다",
-score:1
-},
-
-{
-text:"🌿 보통이다",
-score:0
-},
-
-{
-text:"🌧 아니다",
-score:-1
-},
-
-{
-text:"🌙 전혀 아니다",
-score:-2
 }
 
-];
+/* ========================= */
 
+canvas{
 
+display:none;
 
-let current=0;
+position:absolute;
 
+left:0;
+top:0;
 
+width:100%;
+height:100%;
 
-let scores={
+}
 
-E:0,
-I:0,
+.footer{
 
-N:0,
-S:0,
+margin-top:20px;
+font-size:13px;
+color:#888;
 
-T:0,
-F:0,
+}
 
-J:0,
-P:0
+</style>
+</head>
 
-};
+<body>
 
+<div id="game">
 
+<div class="sky" id="sky"></div>
 
+<div class="grass" id="grass"></div>
 
+<div id="menu">
 
-function showQuestion(){
+<h1>🏫 학교생활 MBTI Adventure</h1>
 
+<div class="subtitle">
 
-let q=questions[current];
+NPC와 대화하며 나만의 학교 성향을 찾아보세요.
 
+</div>
 
-document.getElementById("question").innerHTML=
+<button id="startBtn">🎮 게임 시작</button>
 
-`
-${current+1}번째 질문 🐾<br><br>
-${q.text}
-`;
+<button>⚙ 설정</button>
 
+<button>📖 도감</button>
 
+<button>👨‍💻 제작자</button>
 
-let html="";
+<div class="footer">
 
+Prototype Step 1
 
+</div>
 
-choices.forEach(c=>{
+</div>
 
+<canvas id="canvas"></canvas>
 
-html+=`
+</div>
 
-<button class="answer"
+<script>
 
-onclick="answer('${q.mbti}',${c.score})">
+/* ========================= */
+/* 구름 */
 
-${c.text}
+const sky=document.getElementById("sky");
 
-</button>
+for(let i=0;i<8;i++){
 
-`;
+let c=document.createElement("div");
 
+c.className="cloud";
+
+c.style.width=80+Math.random()*80+"px";
+
+c.style.height=35+Math.random()*20+"px";
+
+c.style.left=Math.random()*window.innerWidth+"px";
+
+c.style.top=Math.random()*220+"px";
+
+c.style.animationDuration=20+Math.random()*20+"s";
+
+sky.appendChild(c);
+
+}
+
+/* ========================= */
+/* 잔디 */
+
+const grass=document.getElementById("grass");
+
+for(let i=0;i<350;i++){
+
+let b=document.createElement("div");
+
+b.className="blade";
+
+b.style.left=i*6+"px";
+
+b.style.animationDelay=Math.random()*2+"s";
+
+b.style.height=30+Math.random()*40+"px";
+
+grass.appendChild(b);
+
+}
+
+/* ========================= */
+/* 꽃 */
+
+for(let i=0;i<45;i++){
+
+let f=document.createElement("div");
+
+f.className="flower";
+
+f.style.left=Math.random()*window.innerWidth+"px";
+
+f.style.animationDelay=Math.random()*3+"s";
+
+grass.appendChild(f);
+
+}
+
+/* ========================= */
+
+const menu=document.getElementById("menu");
+
+const canvas=document.getElementById("canvas");
+
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+/* ========================= */
+
+document.getElementById("startBtn").onclick=()=>{
+
+menu.animate([
+
+{
+
+transform:"translate(-50%,-50%) scale(1)"
+
+},
+
+{
+
+transform:"translate(-50%,-50%) scale(1.3)",
+
+opacity:0
+
+}
+
+],{
+
+duration:600,
+
+fill:"forwards"
 
 });
 
+setTimeout(()=>{
 
+menu.style.display="none";
 
-document.getElementById("answers").innerHTML=html;
+canvas.style.display="block";
 
+startGame();
 
-document.getElementById("progress").innerHTML=
-
-`${current+1} / ${questions.length}`;
-
-
-}
-
-
-
-
-
-
-function answer(type,value){
-
-
-
-let opposite={
-
-E:"I",
-I:"E",
-
-N:"S",
-S:"N",
-
-T:"F",
-F:"T",
-
-J:"P",
-P:"J"
-
-};
-
-
-
-
-if(value>0){
-
-scores[type]+=value;
+},600);
 
 }
 
+/* ========================= */
 
-else if(value<0){
+function startGame(){
 
-scores[opposite[type]]+=Math.abs(value);
-
-}
-
-
-
-current++;
-
-
-
-if(current < questions.length){
-
-showQuestion();
+draw();
 
 }
 
-else{
+/* ========================= */
 
-showResult();
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+/* 임시 메시지 */
+
+ctx.fillStyle="white";
+
+ctx.font="50px sans-serif";
+
+ctx.textAlign="center";
+
+ctx.fillText(
+
+"STEP 1 완료",
+
+canvas.width/2,
+
+canvas.height/2
+
+);
+
+ctx.font="28px sans-serif";
+
+ctx.fillText(
+
+"다음 단계에서 학교 맵이 생성됩니다.",
+
+canvas.width/2,
+
+canvas.height/2+60
+
+);
+
+requestAnimationFrame(draw);
 
 }
 
+</script>
 
-}
+</body>
+</html>
+class Player{
 
+    constructor(){
 
+        this.x=400;
+        this.y=300;
 
+        this.width=48;
+        this.height=48;
 
+        this.speed=4;
 
+        this.dx=0;
+        this.dy=0;
 
+    }
 
+}const keys={};
 
-function showResult(){
+window.addEventListener("keydown",(e)=>{
 
+keys[e.key]=true;
 
-document.getElementById("quiz").style.display="none";
+});
 
+window.addEventListener("keyup",(e)=>{
 
-document.getElementById("result").style.display="block";
+keys[e.key]=false;
 
+});player.dx=0;
+player.dy=0;
 
+if(keys["w"]||keys["ArrowUp"])
+player.dy=-player.speed;
 
-let mbti="";
+if(keys["s"]||keys["ArrowDown"])
+player.dy=player.speed;
 
+if(keys["a"]||keys["ArrowLeft"])
+player.dx=-player.speed;
 
+if(keys["d"]||keys["ArrowRight"])
+player.dx=player.speed;let len=Math.hypot(player.dx,player.dy);
 
-mbti += scores.E >= scores.I ? "E":"I";
+if(len>0){
 
-mbti += scores.N >= scores.S ? "N":"S";
+player.dx/=len;
+player.dy/=len;
 
-mbti += scores.T >= scores.F ? "T":"F";
+player.dx*=player.speed;
+player.dy*=player.speed;
 
-mbti += scores.J >= scores.P ? "J":"P";
+}player.x+=player.dx;
+player.y+=player.dy;ctx.beginPath();
 
+ctx.arc(player.x,player.y,22,0,Math.PI*2);
 
+ctx.fillStyle="#FFD89C";
 
+ctx.fill();ctx.beginPath();
 
+ctx.arc(player.x-7,player.y-3,2,0,Math.PI*2);
 
-document.getElementById("mbti").innerHTML=
+ctx.arc(player.x+7,player.y-3,2,0,Math.PI*2);
 
-mbti+" 🐱";
+ctx.fillStyle="#333";
 
+ctx.fill();ctx.beginPath();
 
+ctx.arc(player.x,player.y+4,6,0,Math.PI);
 
+ctx.stroke();function gameLoop(){
 
+update();
 
-let resultText={
+render();
 
+requestAnimationFrame(gameLoop);
 
+}function update(){
 
-ENFP:
-"🌸 정원을 뛰어다니는 활발한 고양이! 친구들과 새로운 경험을 만드는 것을 좋아해요.",
+player.move();
 
+}ctx.clearRect(0,0,canvas.width,canvas.height);
 
-ENTP:
-"💡 호기심 가득한 발명 고양이! 새로운 생각을 찾아다녀요.",
-
-
-ENTJ:
-"👑 리더 고양이! 계획을 세우고 친구들을 이끄는 힘이 있어요.",
-
-
-ENFJ:
-"💗 모두를 챙기는 따뜻한 고양이! 친구들의 마음을 잘 알아요.",
-
-
-INFP:
-"🌙 조용한 숲속 고양이! 상상력이 풍부하고 감성이 깊어요.",
-
-
-INFJ:
-"🌿 생각이 깊은 정원 고양이! 주변을 세심하게 관찰해요.",
-
-
-INTJ:
-"📚 연구하는 고양이! 목표를 향해 차근차근 나아가요.",
-
-
-INTP:
-"🔬 탐험하는 고양이! 궁금한 것을 끝까지 알아봐요.",
-
-
-ESFP:
-"🎉 축제를 좋아하는 고양이! 학교생활을 즐겁게 만들어요.",
-
-
-ESTP:
-"🐾 모험하는 고양이! 새로운 활동에 도전해요.",
-
-
-ESTJ:
-"📋 책임감 최고 고양이! 믿음직한 친구예요.",
-
-
-ESFJ:
-"🌈 다정한 고양이! 주변 사람을 행복하게 해줘요.",
-
-
-ISFP:
-"🎨 감성 예술 고양이! 편안한 분위기를 만들어요.",
-
-
-ISTP:
-"🛠 문제 해결 고양이! 어려운 상황도 잘 해결해요.",
-
-
-ISTJ:
-"📖 성실한 고양이! 꾸준함이 가장 큰 장점이에요.",
-
-
-ISFJ:
-"☕ 따뜻한 돌봄 고양이! 친구들을 잘 챙겨요."
-
-};
-
-
-
-document.getElementById("description").innerHTML=
-
-resultText[mbti];
-
-
-
-changeCat(mbti);
-
-
-}
-
-
-
-
-
-
-
-
-// 결과별 고양이 표정 변화
-
-
-function changeCat(type){
-
-
-const cat=document.getElementById("cat");
-
-
-
-if(type.startsWith("E")){
-
-
-cat.style.filter="brightness(1.15)";
-
-}
-
-else{
-
-
-cat.style.filter="brightness(.95)";
-
-}
-
-
-
-if(type.includes("F")){
-
-
-document.querySelector(".mouth").style.borderBottom=
-
-"4px solid #ff6699";
-
-
-}
-
-else{
-
-
-document.querySelector(".mouth").style.borderBottom=
-
-"4px solid #555";
-
-
-}
-
-
-
-}
-
-
-
-
-
-function restart(){
-
-
-current=0;
-
-
-for(let s in scores){
-
-scores[s]=0;
-
-}
-
-
-document.getElementById("quiz").style.display="block";
-
-
-document.getElementById("result").style.display="none";
-
-
-showQuestion();
-
-
-}
-
-
-
-
-
-showQuestion();
+player.draw();
